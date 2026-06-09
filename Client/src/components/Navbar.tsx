@@ -1,7 +1,9 @@
 import {
+  ArrowUpRightIcon,
   BikeIcon,
   ChevronDownIcon,
   LogOutIcon,
+  MapPinIcon,
   MenuIcon,
   PackageIcon,
   SearchIcon,
@@ -23,6 +25,19 @@ const Navbar = () => {
   const [searchQueary, setSearchQueary] = useState("");
   const [userMenuOpne, setUserMenuOpne] = useState(false);
   const navigate = useNavigate();
+
+  const handleSearch = (e: React.SubmitEvent) => {
+    e.preventDefault();
+    if (searchQueary.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQueary.trim())}`);
+      setSearchQueary("");
+    }
+  };
+
+  const handleLogout = () => {
+    setUserMenuOpne(false);
+    navigate("/");
+  };
   return (
     <nav className=" bg-white sticky top-0 z-50 border-b border-app-border">
       <div className=" max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16 gap-4 ">
@@ -42,7 +57,10 @@ const Navbar = () => {
               Deals
             </Link>
           </div>
-          <form className="hidden sm:flex flex-1 max-w-sm text-xs sm:text-sm">
+          <form
+            onSubmit={handleSearch}
+            className="hidden sm:flex flex-1 max-w-sm text-xs sm:text-sm"
+          >
             <div className="relative w-full">
               <SearchIcon className="absolute left-2.5 top-1/2 -translate-y-1/2 size-4 text-zinc-500" />
               <input
@@ -110,7 +128,7 @@ const Navbar = () => {
                     className=" fixed inset-0 z-40"
                     onClick={() => setUserMenuOpne(false)}
                   >
-                    <div className=" absolute right-10 top-16 mt-2.5 w-56 bg-white rounded-xl shadow-lg border border-app-border py-2 z-50 animate-fade-in">
+                    <div className=" absolute right-8 top-21 mt-2.5 w-56 bg-white rounded-xl shadow-lg border border-app-border py-2 z-50 animate-fade-in">
                       {user && (
                         <div className="px-4 py-2 border-b border-app-border">
                           <p className=" text-sm font-medium text-zinc-900">
@@ -136,19 +154,16 @@ const Navbar = () => {
                         )}
                         {user && (
                           <Link to="/addresses" className="dropdown-link">
-                            <PackageIcon size={16} /> Addresses{" "}
+                            <MapPinIcon size={16} /> Addresses{" "}
                           </Link>
                         )}
-                        {user && (
-                          <Link to="/products" className="dropdown-link">
-                            <PackageIcon size={16} /> Products{" "}
-                          </Link>
-                        )}
-                        {user && (
-                          <Link to="/deals" className="dropdown-link">
-                            <PackageIcon size={16} /> Deals{" "}
-                          </Link>
-                        )}
+                        <Link to="/products" className="dropdown-link">
+                          <ArrowUpRightIcon size={16} /> Products{" "}
+                        </Link>
+
+                        <Link to="/deals" className="dropdown-link">
+                          <ArrowUpRightIcon size={16} /> Deals{" "}
+                        </Link>
                         {user?.isAdmin && (
                           <Link to="/admin/products" className="dropdown-link">
                             <ShieldIcon
@@ -162,7 +177,10 @@ const Navbar = () => {
                         )}
                         {user && (
                           <div className=" border-t border-app-border pt-1">
-                            <button className=" flex items-center gap-3 px-4 py-2.5 text-sm text-app-error hover: bg-red-50 w-full transition-colors">
+                            <button
+                              onClick={handleLogout}
+                              className=" flex items-center gap-3 px-4 py-2.5 text-sm text-app-error hover: bg-red-50 w-full transition-colors"
+                            >
                               <LogOutIcon size={16} /> Logout
                             </button>
                           </div>
