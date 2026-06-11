@@ -26,7 +26,7 @@ const CartSidebar = () => {
 
   if (!isCartOpen) return null;
 
-  const deliveryFee = cartTotal > 20 ? 0 : 89;
+  const deliveryFee = cartTotal > 400 ? 0 : 89;
 
   const grandTotal = cartTotal + deliveryFee;
   return (
