@@ -14,13 +14,11 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
 const Navbar = () => {
   const user: any = { name: "Suraj", email: "srj@gmail.com", isAdmin: true };
-  const { cartCount, setIsCartOpen } = {
-    cartCount: 5,
-    setIsCartOpen: (_data: any) => {},
-  };
+  const { cartCount, setIsCartOpen } =useCart()
 
   const [searchQueary, setSearchQueary] = useState("");
   const [userMenuOpne, setUserMenuOpne] = useState(false);
@@ -81,8 +79,8 @@ const Navbar = () => {
               onClick={() => setIsCartOpen(true)}
             >
               <ShoppingCartIcon className=" size-5 text-zinc-900" />
-              {cartCount && (
-                <span className=" absolute -top-1 -right-1 size-4 bg-app-orange text-white text-2.5 rounded-full flex-center">
+              {cartCount >= 0 && (
+                <span className=" absolute -top-1 -right-1 size-4 bg-app-orange text-white text-[12px] rounded-full flex-center">
                   {cartCount}{" "}
                 </span>
               )}
