@@ -8,10 +8,10 @@ import {
 import type { CartItem, Product } from "../types";
 
 interface CartContextType {
-  item: CartItem[];
+  items: CartItem[];
   addToCart: (product: Product, quantity?: number) => void;
   removeFromCart: (productId: string) => void;
-  updateQuantity: (productId: string, quantity?: number) => void;
+  updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
   cartCount: number;
   cartTotal: number;
@@ -39,19 +39,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
       if (existing) {
         return prev.map((item) =>
-          item.product._id === product._id
-            ? { ...item, quantity: item.quantity + quantity }
-            : item,
-        );
+          item.product._id === product._id ? { ...item, quantity: item.quantity + quantity } : item )
       }
       return [...prev, { product, quantity }];
     });
     setIsCartOpen(true);
   };
 
-  const removeFromCart = (productId: string) => {
-    setItems((prev) => prev.filter((item) => item.product._id !== productId));
-  };
+  const removeFromCart = (productId: string) => { setItems((prev) => prev.filter((item) => item.product._id !== productId))};
 
   const updateQuantity = (productId: string, quantity: number) => {
     if (quantity <= 0) {
