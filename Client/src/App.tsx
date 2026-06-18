@@ -1,5 +1,8 @@
 import { Toaster } from "react-hot-toast";
 import { Routes, Route } from "react-router-dom";
+import ProtectedRoutes from "./components/ProtectedRoutes";
+
+// Customer Pages
 import Login from "./pages/Login";
 import AppLayout from "./pages/AppLayout";
 import Home from "./pages/Home";
@@ -11,7 +14,19 @@ import Checkout from "./pages/Checkout";
 import MyOrders from "./pages/MyOrders";
 import OrderTracking from "./pages/OrderTracking";
 import Addresses from "./pages/Addresses";
-import ProtectedRoutes from "./components/ProtectedRoutes";
+
+// Admin Pages
+import AdminLayout from "./pages/admin/AdminLayout";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminProducts from "./pages/admin/AdminProducts";
+import AdminProductForm from "./pages/admin/AdminProductForm";
+import AdminOrders from "./pages/admin/AdminOrders";
+import AdminDeliveryPartners from "./pages/admin/AdminDeliveryPartners";
+
+// Delivery Pages
+import DeliveryLogin from "./pages/delivery/DeliveryLogin";
+import DeliveryLayout from "./pages/delivery/DeliveryLayout";
+import DeliveryDashboard from "./pages/delivery/DeliveryDashboard";
 
 const App = () => {
   return (
@@ -32,16 +47,32 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<AppLayout />}>
           <Route index element={<Home />} />
-          <Route path="products"  element={<Products />} />
+          <Route path="products" element={<Products />} />
           <Route path="products/:id" element={<ProductPage />} />
-          <Route path="search"  element={<SearchResults />} />
-          <Route path="deals"  element={<FlashDeals />} />
-          <Route  element={<ProtectedRoutes />} >
-            <Route  path="checkout" element={<Checkout/>}/>
-            <Route  path="orders" element={<MyOrders/>}/>
-            <Route  path="orders/:id" element={<OrderTracking/>}/>
-            <Route  path="addresses" element={<Addresses/>}/>
+          <Route path="search" element={<SearchResults />} />
+          <Route path="deals" element={<FlashDeals />} />
+          <Route element={<ProtectedRoutes />}>
+            <Route path="checkout" element={<Checkout />} />
+            <Route path="orders" element={<MyOrders />} />
+            <Route path="orders/:id" element={<OrderTracking />} />
+            <Route path="addresses" element={<Addresses />} />
           </Route>
+        </Route>
+
+        {/* Admin Pages */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminDashboard />} />
+          <Route path="products" element={<AdminProducts />} />
+          <Route path="products/new" element={<AdminProductForm />} />
+          <Route path="products/:id/edit" element={<AdminProductForm />} />
+          <Route path="orders" element={<AdminOrders />} />
+          <Route path="delivery-partners" element={<AdminDeliveryPartners />} />
+        </Route>
+
+        {/* Delivery Partner Pages */}
+        <Route path="/delivery/login" element={<DeliveryLogin />} />
+        <Route path="/delivery" element={<DeliveryLayout />}>
+          <Route index element={<DeliveryDashboard />} />
         </Route>
       </Routes>
     </>
